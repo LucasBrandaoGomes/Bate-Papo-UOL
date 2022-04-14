@@ -1,0 +1,90 @@
+body{
+    width: 375px;
+    background-color: #E5E5E5;
+}
+.container{
+    width: 375px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    margin-top: 100px;
+    margin-bottom: 110px;
+}
+.top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background-color: #FFFFFF;
+    width: 375px;
+    height: 80px;
+    box-sizing: border-box;
+    padding-left: 22px;
+    padding-right: 24px;
+
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.05);
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+.top ion-icon{
+    font-size: 40px;
+}
+.topo img{
+    width: 75px;
+    height: 53px;
+}
+.corpodemensagens{
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    margin-top: 26px;
+}
+.corpodemensagens > div{
+    box-sizing: border-box;
+    padding-left: 9px;
+    padding-right: 9px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+    border-radius: 2px;
+}   
+.mensagens{
+    background-color:#FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.reservada{
+    background-color: #FFDEDE;
+}
+.entrousaiu{
+    background-color: #DCDCDC;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.bottom{
+    width: 375px;
+    height: 80px;
+    background-color: #FFFFFF;
+    box-sizing: border-box;
+    box-shadow: 0px -4px 6px rgba(0, 0, 0, 0.05);
+    margin-top: 16px;
+    padding-left: 17px;
+    padding-right: 27px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.bottom ion-icon{
+    font-size: 26px;
+}
+
+
