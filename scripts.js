@@ -1,16 +1,30 @@
-let usuarios = [];
 let mensagens = [];
 let usuario = prompt("Qual é o seu nome de usuário?")
-
-/* ENVIAR PARA A API O NOVO USUARIO */
-
-function entrou(usuario){
-    const nomeusuario = {
+const nomeusuario = {
         name: usuario
     };
-    const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants", nomeusuario);
+const divCorpoDeMensagens = document.querySelector(".corpoDeMensagens");
 
-    promise.catch(tratarErroUsuario);
+/* ENVIAR PARA A API O NOVO USUARIO e MANTER ONLINE */
+
+function entrar(nomeusuario){
+    
+    const requisicao = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants", nomeusuario);
+    requisicao.then(manterConexao);
+    requisicao.catch(tratarErroUsuario);
+
+}
+function manterConexao(){
+    setInterval(conexao, 4000);
+    setInterval(pegarMsg, 3000);
+    console.log("entrou");
+}
+function conexao(nomeusuario){
+    const online = axios.post("https://mock-api.driven.com.br/api/v6/uol/status", nomeusuario);
+    online.then(statusOnline);
+}
+function statusOnline(){
+    console.log("online")
 }
 function tratarErroUsuario(error){
     console.log(error.response);
@@ -19,19 +33,9 @@ function tratarErroUsuario(error){
         }
     }   
 
-entrou(usuario)
+entrar(nomeusuario)
 
-/* MANTER ATUALIZAÇÃO DE STATUS */
-
-function atualizarStatus(){
-    const nomeusuario = {
-        name: usuario
-    };
-    const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants", nomeusuario);
-}
-setInterval(atualizarStatus, 4000);
-
-/* BLOCO DE BUSCAR MENSGENS NA APT */
+/* BLOCO DE BUSCAR MENSGENS NA API */
 
 function pegarMsg(){
     const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages");
@@ -40,55 +44,50 @@ function pegarMsg(){
 
 function carregarMsg(response){
     mensagens = response.data;
-    renderizarMsg();
+    renderizarMsg(divCorpoDeMensagens);
 }
-function renderizarMsg(){
-    const divCorpoDeMensagens = document.querySelector(".corpoDeMensagens");
+function renderizarMsg(divCorpoDeMensagens){
     divCorpoDeMensagens.innerHTML = ""
-    if (mensagens[i].type === "message"){
-        for(let i=0; i<mensagens.length; i++){
+    for(let i=0; i<mensagens.length; i++){
+        if (mensagens[i].type === "message"){
             divCorpoDeMensagens.innerHTML+=`
                 <div class="mensagens">
-                    <span class="hora">${mensagens[i].time}</span>
+                    <span class="hora">(${mensagens[i].time})</span>
                     <span class="remetente">${mensagens[i].from}</span>
-                    <p>para</p>
+                    <span>para</span>
                     <span class="destinatario">${mensagens[i].to}</span>
-                    <span class="mensagem">${mensagens[i].text}</span>
+                    <span class="texto">${mensagens[i].text}</span>
                 </div>`
-        }
-    }else if (mensagens[i].type === "status"){
         
-        for(let i=0; i<mensagens.length; i++){
+        }else if (mensagens[i].type === "status"){
             divCorpoDeMensagens.innerHTML+=`
             <div class="entrousaiu">
-                    <span class="hora">${mensagens[i].time}</span>
-                    <span class="remetente">${usuarios[i]}</span>
-                    <p>${mensagens[i].text}</p>
+                    <span class="hora">(${mensagens[i].time})</span>
+                    <span class="remetente">${mensagens[i].from}</span>
+                    <span class="texto">${mensagens[i].text}</span>
             </div>`
-        }
-    }else if (mensagens[i].type === "private_message"){
-        for(let i=0; i<mensagens.length; i++){
+        }else if (mensagens[i].type === "private_message"){
             divCorpoDeMensagens.innerHTML+=`
             <div class="mensagens reservada">
-                    <span class="hora">${mensagens[i].time}</span>
+                    <span class="hora">(${mensagens[i].time})</span>
                     <span class="remetente">${mensagens[i].from}</span>
-                    <p>reservadamente para</p>
+                    <span>reservadamente para</span>
                     <span class="destinatario">${mensagens[i].to}</span>
-                    <span class="mensagem">${mensagens[i].text}</span>
+                    <span class="texto">${mensagens[i].text}</span>
             </div>`
-        }
+        }   
     }
+    divCorpoDeMensagens.lastChild.scrollIntoView();
 }
-setInterval(pegarMsg, 3000)
 
 /* ENVIAR NOVA MENSAGEM PARA APT E RENDERIZAR */
 
-function enviarMsg() {
+function enviarMsg(usuario) {
   
-  const from =  `${usuario}`;
-  const to = "todos"
-  const text = document.querySelector(".bottom").querySelector(".input").value;
-  const type = "message"
+  let from =  usuario;
+  let to = "Todos"
+  let text = document.querySelector(".bottom").querySelector("input").value;
+  let type = "message";
 
   const novaMsg = {
       
@@ -98,13 +97,14 @@ function enviarMsg() {
 	type: type
    }
 
-  const promise = axios.post(
-    "https://mock-api.driven.com.br/api/v6/uol/messages",
-    novaMsg
-  );
-
-  promise.then(pegarMsg);
-
+  const envioDaMensagem = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages",novaMsg);
+  envioDaMensagem.then(pegarMsg);
+  text = "";
+  envioDaMensagem.catch(tratarErroDeEnvio);
+}
+function tratarErroDeEnvio(error){
+    alert("Você foi desconectado da sala, clique em OK para reestabelecer conexão");
+    /*window.location.reload()*/
 }
 
 

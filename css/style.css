@@ -8,7 +8,6 @@ body{
     flex-direction: column;
     box-sizing: border-box;
     margin-top: 100px;
-    margin-bottom: 110px;
 }
 .top{
     display: flex;
@@ -32,7 +31,7 @@ body{
 .top ion-icon{
     font-size: 40px;
 }
-.topo img{
+.top img{
     width: 75px;
     height: 53px;
 }
@@ -42,21 +41,23 @@ body{
     box-sizing: border-box;
     margin-top: 26px;
 }
-.corpodemensagens > div{
+.corpoDeMensagens > div{
     box-sizing: border-box;
-    padding-left: 9px;
     padding-right: 9px;
     padding-top: 10px;
     padding-bottom: 10px;
     flex-wrap: wrap;
+    word-wrap: break-word;
     margin-bottom: 4px;
     border-radius: 2px;
+}
+span{
+    margin-left: 6px;
+    line-height: 1.3em;
 }   
 .mensagens{
     background-color:#FFFFFF;
     display: flex;
-    align-items: center;
-    justify-content: space-around;
 }
 .reservada{
     background-color: #FFDEDE;
@@ -64,8 +65,12 @@ body{
 .entrousaiu{
     background-color: #DCDCDC;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+}
+.hora{
+    color: #aaaaaa;
+}
+.remetente, .destinatario{
+    font-weight: 600;
 }
 .bottom{
     width: 375px;
@@ -86,5 +91,20 @@ body{
 .bottom ion-icon{
     font-size: 26px;
 }
+.bottom input{
+    font-family: 'Roboto';
+    font-style: italic;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21px;
+    display: flex;
+    align-items: center;
+    border: 0px;
+    outline: transparent;
 
+    color: #000000;
+}
+.enviarmsg:hover{
+    cursor: pointer;
+}
 
