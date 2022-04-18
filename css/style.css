@@ -8,6 +8,7 @@ body{
     flex-direction: column;
     box-sizing: border-box;
     margin-top: 100px;
+    margin-bottom: 80px;
 }
 .top{
     display: flex;
@@ -54,11 +55,13 @@ body{
 span{
     margin-left: 6px;
     line-height: 1.3em;
+    word-wrap: break-word;
 }   
 .mensagens{
     background-color:#FFFFFF;
     display: flex;
 }
+
 .reservada{
     background-color: #FFDEDE;
 }
