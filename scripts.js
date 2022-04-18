@@ -17,16 +17,14 @@ function entrar(nomeusuario){
 function manterConexao(nomeusuario){
     setInterval(() =>conexao(nomeusuario), 4000);
     setInterval(pegarMsg, 3000);
-    console.log("entrou");
 }
 function conexao(nomeusuario){
-    console.log(nomeusuario)
     const online = axios.post("https://mock-api.driven.com.br/api/v6/uol/status", nomeusuario);
     online.then(statusOnline);
     online.catch(error => console.log(error.response))
 }
 function statusOnline(){
-    console.log("online")
+    /* console.log("online") */
 }
 function tratarErroUsuario(error){
     console.log(error.response);
@@ -48,8 +46,8 @@ function carregarMsg(response){
     mensagens = response.data;
     renderizarMsg(divCorpoDeMensagens);
 }
-function msgReservada(mensagen){
-    if (mensagen.type === "private_message" && ( mensagen.to === usuario || mensagen.from === usuario || mensagen.to === "Todos")){
+function msgReservada(mensagens, usuario){
+    if (mensagens.type === "private_message" && ( mensagens.to === usuario || mensagens.from === usuario || mensagens.to === "Todos")){
         return true;
     }else{
         return false;
@@ -75,7 +73,7 @@ function renderizarMsg(divCorpoDeMensagens){
                     <span class="remetente">${mensagens[i].from}</span>
                     <span class="texto">${mensagens[i].text}</span>
             </div>`
-        }else if (msgReservada(mensagens[i])){
+        }else if (msgReservada(mensagens[i],usuario)){
             divCorpoDeMensagens.innerHTML+=`
             <div class="mensagens reservada">
                     <span class="hora">(${mensagens[i].time})</span>
@@ -96,7 +94,7 @@ function enviarMsg() {
   let from =  usuario;
   let to = "Todos"
   let text = document.querySelector(".bottom").querySelector("input").value;
-  let type = "message";
+  let type = "private_message" /* ou "message" */
 
   const novaMsg = {
       
@@ -115,5 +113,11 @@ function tratarErroDeEnvio(error){
     alert("Você foi desconectado da sala, clique em OK para reestabelecer conexão");
     window.location.reload()
 }
+/* envio da mensagem com enter */ 
 
+document.querySelector("input").onkeydown = function(event) {
+    if(event.key === "Enter") {
+        enviarMsg();
+    }
+}
 

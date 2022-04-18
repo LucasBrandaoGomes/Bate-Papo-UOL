@@ -59,7 +59,6 @@ span{
 }   
 .mensagens{
     background-color:#FFFFFF;
-    display: flex;
 }
 
 .reservada{
@@ -67,7 +66,6 @@ span{
 }
 .entrousaiu{
     background-color: #DCDCDC;
-    display: flex;
 }
 .hora{
     color: #aaaaaa;
